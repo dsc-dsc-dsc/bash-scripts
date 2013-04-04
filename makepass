@@ -1,19 +1,31 @@
 #!/bin/bash
+#Password creation system that uses three seeds (two entered by user, third is home directory)
+#and generates a psuedo-random password.
+
 echo "Enter website url or whatever seed you like:"
 read SEED1
+#prompts user for first seed
 echo "Enter the password seed (or whatever seed you like):"
 read SEED2
-echo "How long would you like the password to be? (if nothing entered will default to 20)"
+#prompts user for second seed
+echo "How long would you like the password to be? (if nothing entered will default to 20):"
 read LENG
+#prompts user for length of final password
 if [[ -n LENG ]]; then
     LENG=20
 fi
+#checks if length is entered
 echo using seed of $SEED1 + $SEED2 + $HOME
 SEED1=$(echo $SEED1 | md5sum)
 SEED2=$(echo $SEED2 | md5sum)
 SEED3=$(echo $HOME | md5sum)
+#echos seeds and generates md5 sums of each seed
 echo -e "Seeds scrambled, new seeds are\n $SEED1\n $SEED2\n $SEED3\n\n\n"
+#echos md5 sums of each seed
 pass=$(echo "$SEED1$SEED2$HOME" | md5sum)
+#gets final md5 sum to be used as password
 POS=2
 FINAL="${pass:$POS:$LENG}"
+#cuts md5sum to $LENG characters
 echo "You're final password is: "$FINAL
+#echos final password
