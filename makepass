@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "Enter website url or whatever seed you like:"
+read SEED1
+echo "Enter the password seed (or whatever seed you like):"
+read SEED2
+echo "How long would you like the password to be? (if nothing entered will default to 20)"
+read LENG
+if [[ -n LENG ]]; then
+    LENG=20
+fi
+echo using seed of $SEED1 + $SEED2 + $HOME
+SEED1=$(echo $SEED1 | md5sum)
+SEED2=$(echo $SEED2 | md5sum)
+SEED3=$(echo $HOME | md5sum)
+echo -e "Seeds scrambled, new seeds are\n $SEED1\n $SEED2\n $SEED3\n\n\n"
+pass=$(echo "$SEED1$SEED2$HOME" | md5sum)
+POS=2
+FINAL="${pass:$POS:$LENG}"
+echo "You're final password is: "$FINAL
